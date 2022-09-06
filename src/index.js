@@ -29,14 +29,15 @@ app.get("/api/student/:id", async (req, res) => {
 app.post('/api/student', (req, res) => {
     const input = req.body;
     if (input.name != null && input.currentClass != null && input.division != null) {
+        const newId = parseInt(Date.now().toString());
         const studentData = {
-            id: parseInt(Date.now().toString()),
+            id: newId,
             name: input.name,
             currentClass: parseInt(input.currentClass),
             division: input.division
         };
         data = [...data, studentData];
-        res.status(200).send(studentData);
+        res.status(200).send({ id: newId });
     } else {
         res.status(404);
     }
@@ -62,10 +63,10 @@ app.put('/api/student/:id', (req, res) => {
 
 app.delete('/api/student/:id', (req, res) => {
     const isPresent = data.find((item) => item.id == req.params.id);
-    if(isPresent){
+    if (isPresent) {
         data = data.filter((item) => item.id != req.params.id);
         res.send(`delete student of ${req.params.id} successfully`);
-    }else{
+    } else {
         res.status(404).send();
     }
 })
