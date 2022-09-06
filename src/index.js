@@ -36,7 +36,7 @@ app.post('/api/student', (req, res) => {
             division: input.division
         };
         data = [...data, studentData];
-        res.status(200).send(studentData.id);
+        res.status(200).send(studentData);
     } else {
         res.status(404);
     }
