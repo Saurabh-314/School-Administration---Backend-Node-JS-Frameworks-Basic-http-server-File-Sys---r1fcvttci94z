@@ -36,7 +36,7 @@ app.post('/api/student', (req, res) => {
             division: input.division
         };
         data = [...data, studentData];
-        res.status(200).send(studentData);
+        res.status(200).send(studentData.id);
     } else {
         res.status(404);
     }
@@ -61,8 +61,13 @@ app.put('/api/student/:id', (req, res) => {
 })
 
 app.delete('/api/student/:id', (req, res) => {
-    data = data.filter((item) => item.id != req.params.id);
-    res.send(`delete student of ${req.params.id} successfully`);
+    const isPresent = data.find((item) => item.id == req.params.id);
+    if(isPresent){
+        data = data.filter((item) => item.id != req.params.id);
+        res.send(`delete student of ${req.params.id} successfully`);
+    }else{
+        res.status(404).send();
+    }
 })
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
