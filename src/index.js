@@ -14,8 +14,6 @@ app.use(bodyParser.json())
 app.get('/api/student', (req, res) => {
     res.send(data);
 })
-
-
 app.get("/api/student/:id", async (req, res) => {
     const id = req.params.id;
     const isPresent = data.find((item) => item.id == id);
@@ -29,15 +27,15 @@ app.get("/api/student/:id", async (req, res) => {
 app.post('/api/student', (req, res) => {
     const input = req.body;
     if (input.name != null && input.currentClass != null && input.division != null) {
-        const newId = parseInt(Date.now().toString());
+        const Newid = data.length;
         const studentData = {
-            id: newId,
+            id: Newid + 1,
             name: input.name,
             currentClass: parseInt(input.currentClass),
             division: input.division
         };
         data = [...data, studentData];
-        res.status(200).send({ id: newId });
+        res.status(200).send({ id: Newid + 1 });
     } else {
         res.status(404);
     }
@@ -50,9 +48,7 @@ app.put('/api/student/:id', (req, res) => {
         data.map((item) => {
             if (item.id == req.params.id) {
                 item.name = input.name;
-                res.status(200).send();
-            } else {
-                res.status(400).send();
+                res.status(200).send({ name: input.name });
             }
         })
     } else {
@@ -73,4 +69,4 @@ app.delete('/api/student/:id', (req, res) => {
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
 
-module.exports = app;   
+module.exports = app;
